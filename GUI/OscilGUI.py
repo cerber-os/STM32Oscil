@@ -19,7 +19,7 @@ def processUserInput(gui, serial):
                      pygame.K_RIGHT: (0.1, 0)}
     posGraphLUT = {pygame.K_a: (10, 0), pygame.K_d: (-10, 0)}
     scaleTriggerLUT = {pygame.K_i: 0.1, pygame.K_j: -0.1}
-    freqLUT = {pygame.K_z: 100, pygame.K_x: -100}
+    freqLUT = {pygame.K_z: 10000, pygame.K_x: -10000}
     samplesLUT = {pygame.K_n: -100, pygame.K_m: 100}
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

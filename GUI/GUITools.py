@@ -191,7 +191,7 @@ class UIGraph(UserInterface):
         """Returns string containing information of current graph settings"""
         return str(round(self.scale[0] / self.freq * 1000, 1)) + 'ms/div', \
                str(self.scale[1]) + 'V/div', \
-               str(round(9000 / self.freq, 1)) + 'kHz', \
+               str(round(self.freq / 1000, 1)) + 'kHz', \
                str(self.numberOfSamples)
 
     def scaleCords(self, cords):
