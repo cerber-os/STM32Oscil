@@ -144,7 +144,7 @@ class UIGraph(UserInterface):
         self.zeroDivs = (210, 210, 210)
         self.startOfCord = Point((0, self.size.y // 2))
         self.scale = [130, 0.5]
-        self.freq = 9000
+        self.freq = 10000
         self.numberOfSamples = 2000
 
     def drawBackground(self):

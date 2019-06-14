@@ -64,7 +64,7 @@ int setFreq(uint32_t freq) {
 	if(state == WORKING)
 		return 2;
 	currentFreq = freq;
-	if(SysTick_Config_Mod(SysTick_CLKSource_HCLK_Div8, freq))
+	if(SysTick_Config(freq))
 		return 2;
 	return 0;
 }
@@ -136,9 +136,9 @@ void printState(void) {
 
 // Hander for SysTick interrupt
 void SysTick_Handler(void) {
-	if(state == OFF || state == FINISHED)
-		;		// Do nothing
-	else if(state == WAITING_FOR_TRIG) {
+	if(state == OFF || state == FINISHED) {
+		// Do nothing
+	} else if(state == WAITING_FOR_TRIG) {
 		uint16_t sample = ADC_GetConversionValue(ADC1);
 		if(sample <= triggerLevel) {		// We have been triggered
 			state = WORKING;

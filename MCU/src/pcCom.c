@@ -23,15 +23,15 @@ union payload_t payload;
 //							INVALID_COMMAND - host sent unknown command code
 int processPcCom(void) {
 	unsigned char data;
-	static char payloadLength;
-	static char payloadBytesReadSoFar = 0;
+	static int payloadLength;
+	static int payloadBytesReadSoFar = 0;
 	static char commandCode = 0;
 
 	if(!isQueueEmpty(&rxQueue)) {
 		switch(pcComCurrentState) {
 		case NEW_DATA:
 			GPIO_WriteBit(GPIOB, GPIO_Pin_8, 1 - GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8));
-			popFromQueue(&rxQueue, &data);
+			popFromQueue(&rxQueue, (char*)&data);
 			commandCode = data;
 
 			if(data == PING || data >= IS_DATA_AVAIL)
@@ -51,7 +51,7 @@ int processPcCom(void) {
 			break;
 
 		case WAIT_FOR_PAYLOAD:
-			popFromQueue(&rxQueue, &data);
+			popFromQueue(&rxQueue, (char*)&data);
 
 			payload.bytes[payloadBytesReadSoFar] = data;
 			payloadBytesReadSoFar++;
