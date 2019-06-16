@@ -5,7 +5,7 @@
  *      Author: Paweł Wieczorek
  */
 #include "stm32f10x.h"
-#include "../inc/lcd_hd44780_lib.h"
+#include "../inc/hd44780.h"
 #include "../inc/pcCom.h"
 #include "../inc/queue.h"
 #include "../inc/probe.h"
@@ -43,10 +43,10 @@ int main(void) {
 	GPIO_ResetBits(GPIOB, 0xFF00);
 
 	// Initialize 16x2 LCD and display welcome message
-	LCD_Initialize();
-	LCD_WriteCommand(HD44780_CLEAR);
-	LCD_WriteTextXY((unsigned char*) "STM32   Oscil", 1, 0);
-	LCD_WriteTextXY((unsigned char*) "PC <-X-> Dev.", 2, 1);
+	HD44780_Init(16, 2);
+	HD44780_Clear();
+	HD44780_Puts(0, 0, "  STM32  Oscil\0");
+	HD44780_Puts(2, 1, "PC <-X-> Dev.\0");
 
 	clearQueue(&rxQueue);
 	clearQueue(&txQueue);
@@ -57,7 +57,7 @@ int main(void) {
 	sendAck(0);
 
 	// Display that we are connected, delay ~1s and print current state
-	LCD_WriteTextXY((unsigned char*) "PC <---> Dev.", 2, 1);
+	HD44780_Puts(2, 1, "PC <---> Dev.");
 	for (int i = 0; i < 2000000; i++)
 		;
 	printState();

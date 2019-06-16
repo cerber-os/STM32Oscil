@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "stm32f10x.h"
 #include "../inc/probe.h"
-#include "../inc/lcd_hd44780_lib.h"
+#include "../inc/hd44780.h"
 
 // Global array, where taken samples will be stored
 uint16_t samples[MAX_NUMBER_OF_SAMPLES + 1];
@@ -103,8 +103,8 @@ int getState(void) {
 
 // Prints basic information about probing on 16x2 LCD display
 void printState(void) {
-	unsigned char firstLine[16];
-	unsigned char secondLine[16];
+	char firstLine[16];
+	char secondLine[16];
 
 	char cpProbingMode = '?';
 	char cpState;
@@ -126,12 +126,13 @@ void printState(void) {
 	else
 		cpState = '0' + (state % 10);
 
-	snprintf((char*)firstLine, sizeof(firstLine), "M:%c S:%c T:%d", cpProbingMode, cpState, triggerLevel);
-	snprintf((char*)secondLine, sizeof(secondLine), "No:%d", maxNumberOfSamples);
+	snprintf(firstLine, sizeof(firstLine), "M:%c S:%c T:%d", cpProbingMode, cpState, triggerLevel);
+	snprintf(secondLine, sizeof(secondLine), "No:%d", maxNumberOfSamples);
 
-	LCD_WriteCommand(HD44780_CLEAR);
-	LCD_WriteTextXY(firstLine, 0, 0);
-	LCD_WriteTextXY(secondLine, 0, 1);
+
+	HD44780_Clear();
+	HD44780_Puts(0, 0, firstLine);
+	HD44780_Puts(0, 1, secondLine);
 }
 
 // Hander for SysTick interrupt
